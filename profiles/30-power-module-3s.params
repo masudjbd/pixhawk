@@ -1,0 +1,26 @@
+# 3DR-style analog power brick on the POWER port, 3S pack.
+#
+# BATT_MONITOR 4 = voltage and current. Pins 2 and 3 and the 10.1 / 17.0
+# scalings are the fmuv3 hwdef defaults for exactly this module, so on this
+# board they usually come out right without touching them -- but VERIFY THE
+# VOLTAGE AGAINST A METER before trusting the failsafe. Every one of these
+# bricks is a resistor divider with a tolerance, and a reading 0.4 V low
+# triggers RTL on a healthy pack.
+#
+# Adjust for other cell counts (~3.5 V/cell low, ~3.3 V/cell critical):
+#   3S  low 10.5  crit  9.9
+#   4S  low 14.0  crit 13.2
+#   6S  low 21.0  crit 19.8
+BATT_MONITOR,4
+BATT_VOLT_PIN,2
+BATT_CURR_PIN,3
+BATT_VOLT_MULT,10.1
+BATT_AMP_PERVLT,17.0
+BATT_CAPACITY,2200
+BATT_LOW_VOLT,10.5
+BATT_CRT_VOLT,9.9
+# 2 = RTL on low battery, 1 = land on critical. Land rather than RTL when
+# critical: a pack that low may not make it home, and a controlled descent
+# where it is beats a brownout on the way.
+BATT_FS_LOW_ACT,2
+BATT_FS_CRT_ACT,1

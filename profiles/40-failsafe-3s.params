@@ -1,0 +1,26 @@
+# Radio and link failsafes.
+#
+# FS_THR_VALUE must sit ABOVE whatever the receiver emits on signal loss and
+# BELOW the lowest value the throttle stick produces in flight. Confirm
+# against the RC3_MIN that ./calibrate_radio.py measures -- a threshold
+# inside the live stick range fires a failsafe in the air.
+#
+# Measured on the APM 2.8 airframe with this radio: RC3_MIN 1025, and a
+# genuinely powered-off FS-i6 drops ch3 to ~900. 975 sits between them.
+#
+# On SBUS there is a second mechanism: the FS-iA6B can be told to output a
+# failsafe value, OR to hold its last frame. Holding is what drove the APM
+# into ESC calibration at 1996 us. Configure the receiver to drop ch3 low on
+# loss, then TEST IT -- switch the transmitter off on the bench and watch ch3
+# in ./rc_live.py. An untested failsafe is the one that bites.
+FS_THR_ENABLE,1
+FS_THR_VALUE,975
+# No telemetry radio yet: a GCS failsafe with no GCS would trigger in flight.
+FS_GCS_ENABLE,0
+# 1 = land if the EKF's variances go bad. The alternative is flying on an
+# estimator that knows it is lost.
+FS_EKF_ACTION,1
+FS_EKF_THRESH,0.8
+FS_CRASH_CHECK,1
+# RC loss is declared after this many seconds of no frames.
+RC_FS_TIMEOUT,1

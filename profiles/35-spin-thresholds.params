@@ -1,0 +1,29 @@
+# Motor spin thresholds, MEASURED on this airframe -- not defaults.
+#
+# Measured 2026-10-03 with props off, ESCs calibrated, pack at ~11.0 V:
+#
+#   1100 us  no motor starts
+#   1150 us  no motor starts
+#   1210 us  no motor starts
+#   1250 us  ALL FOUR start
+#
+# So the ESCs' start threshold sits between 1210 and 1250 us, and all four
+# are matched -- which is what makes it safe. The original symptom (one motor
+# idle, another stopping as pitch/roll moved) was the stock MOT_SPIN_ARM 0.10
+# = 1100 us sitting BELOW every threshold, with stabilisation pushing one
+# output across at a time.
+#
+# On a 1000-2000 range: 1250 us = 0.25. ARM is set just above the measured
+# start point, MIN a little above that, per ArduPilot's procedure.
+#
+# THESE ARE HIGH. A calibrated ESC usually starts near 1050-1100. Two things
+# worth re-checking before accepting them permanently:
+#   * the pack was at 3.66 V/cell when measured. A depleted battery gives
+#     less torque, so motors need more throttle to break away -- re-measure
+#     on a full pack and these may come down.
+#   * MOT_THST_HOVER defaults to 0.35 and is learned in flight. If hover ends
+#     up close to MOT_SPIN_MIN 0.30 there is very little room left to REDUCE
+#     a motor for stabilisation, which shows up as sloppy or twitchy control.
+#     If that happens, the answer is better-matched ESCs, not more trim.
+MOT_SPIN_ARM,0.26
+MOT_SPIN_MIN,0.30

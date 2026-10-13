@@ -1,0 +1,11 @@
+# Detailed logging for the first flights.
+#
+# Unlike the APM 2.8's tiny dataflash, this board logs to an SD card, so
+# there is no reason to be frugal: IMU, RCIN, RCOUT and fast attitude are
+# what make a drift, a wobble or a motor imbalance diagnosable afterwards.
+# 180222 is 4.7's default; the extra bits here add raw IMU and fast attitude.
+LOG_BITMASK,196607
+# Log while disarmed too, so a bench session is reviewable. Turn this back to
+# 0 once the aircraft is flying -- it fills the card with ground time.
+LOG_DISARMED,1
+LOG_FILE_DSRMROT,1

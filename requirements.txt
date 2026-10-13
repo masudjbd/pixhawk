@@ -1,0 +1,21 @@
+# Pixhawk 2.1 Cube (fmuv3) toolkit -- Python side.
+#
+# Unlike the APM 2.8 toolkit this board speaks MAVLink 2, so nothing here is
+# pinned to a 2015-era pymavlink. Keep pymavlink current: the Cube's message
+# set (SET_MESSAGE_INTERVAL, MAG_CAL_*, uid2) needs a modern dialect.
+pymavlink>=2.4.42
+pyserial>=3.5
+numpy>=1.24
+# MAVProxy as the GCS. Pure Python, installs into the venv -- no Gatekeeper,
+# no Rosetta, no app bundle. Unlike on APM 2.x it is a convenience here, not a
+# necessity: QGroundControl talks to this board natively (MAVLink 2), so no
+# mavbridge.py equivalent is needed or shipped.
+MAVProxy>=1.8.71
+# MAVProxy imports `future` in its readline wrapper without declaring it.
+future>=1.0.0
+# Same story on macOS: MAVProxy's rline.py does
+#     if platform.system() == 'Darwin': import gnureadline as readline
+# and never declares it. Prebuilt arm64 wheel, so nothing compiles.
+gnureadline>=8.0; sys_platform == "darwin"
+# Static checking. Not needed to fly; needed to trust an edit.
+pyflakes>=3.0

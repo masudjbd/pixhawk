@@ -1,0 +1,21 @@
+# Make the GPS-mast magnetometer the one the EKF trusts.
+#
+# PREREQUISITE: run ./which_compass.py first. It rotates the mast alone and
+# then the whole airframe, and tells you which COMPASS instance actually
+# moves with which -- because no parameter distinguishes "the IST8310 is on
+# the mast" from "the IST8310 is soldered to the flight controller", and some
+# clone boards carry one onboard.
+#
+# On this aircraft (verified 2026-10-02): compass 1 is an IST8310 on I2C bus
+# 0, compass 2 an LSM303D on SPI -- i.e. instance 1 is the external module
+# and instance 2 is onboard. If which_compass.py disagrees, do not apply this.
+#
+# Unlike the APM 2.8 there is NO hardware modification to make: this board
+# does not put the onboard magnetometer on the same bus as the external one,
+# so there is no solder bridge to cut and both can be used at once. Keeping
+# the onboard one enabled gives the EKF a second opinion, which is why
+# COMPASS_USE2 stays 1.
+COMPASS_EXTERNAL,1
+COMPASS_USE,1
+COMPASS_USE2,1
+COMPASS_LEARN,0

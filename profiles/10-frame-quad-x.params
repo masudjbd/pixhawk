@@ -1,0 +1,11 @@
+# Quad in X. On 4.x this is all it takes: setting FRAME_CLASS builds the
+# mixer, which in turn assigns SERVO1..4_FUNCTION to Motor1..4. Do not set
+# SERVOn_FUNCTION by hand on a multirotor -- the mixer owns those.
+#
+# FRAME_CLASS 1 = quad, FRAME_TYPE 1 = X.
+#
+# X vs plus is about how the arms sit relative to the ARROW ON THE BOARD, not
+# how the airframe looks in a photo. Get it wrong and the aircraft flips on
+# takeoff, every time.
+FRAME_CLASS,1
+FRAME_TYPE,1

@@ -1,0 +1,17 @@
+# Same three-position mapping as 50-fltmodes-3pos-land, with RTL in place of
+# LAND on the last notch.
+#
+# Apply this ONLY after:
+#   - ./calibrate_compass.py has written offsets and they are under 400
+#   - ./gps_check.py has shown a 3D fix with 8+ satellites, outdoors
+#   - the heading in a GCS points the right way as you rotate the airframe
+#
+# RTL is the mode that hands control back when something goes wrong, and it
+# is worth having -- but only once it can be trusted to fly towards you.
+FLTMODE1,0
+FLTMODE2,0
+FLTMODE3,2
+FLTMODE4,2
+FLTMODE5,6
+FLTMODE6,6
+FLTMODE_CH,5

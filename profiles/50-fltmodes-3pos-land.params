@@ -1,0 +1,26 @@
+# Flight modes for a THREE-position switch (FS-i6 SwC on channel 5), for an
+# aircraft whose COMPASS AND GPS ARE NOT YET PROVEN.
+#
+# A 3-position switch cannot reach six slots. At the usual 1000/1500/2000 us
+# it lands in slots 1, 4 and 6, so those are the only three that matter and
+# the rest repeat their neighbour -- PWM drift across a boundary then changes
+# nothing. CONFIRM with ./mode_monitor.py: endpoint and subtrim settings move
+# the actual PWM, and if your switch lands in different slots this mapping is
+# wrong for your radio.
+#
+#   slot 1  STABILIZE  manual, always available
+#   slot 4  ALT_HOLD   holds height, still manual horizontally
+#   slot 6  LAND       descend here, now
+#
+# LAND rather than RTL deliberately. RTL flies a compass bearing home at
+# altitude: with an uncalibrated compass it does that confidently in the
+# wrong direction. LAND needs neither heading nor position. Switch to
+# 51-fltmodes-3pos-rtl.params once the compass is calibrated and the GPS has
+# been seen to hold a 3D fix outdoors.
+FLTMODE1,0
+FLTMODE2,0
+FLTMODE3,2
+FLTMODE4,2
+FLTMODE5,9
+FLTMODE6,9
+FLTMODE_CH,5

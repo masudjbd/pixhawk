@@ -1,0 +1,25 @@
+# Pitch channel reversal for the FS-i6 on this airframe.
+#
+# Measured 2026-10-02 by check_stick_sense.py --capture, with both sticks
+# held into their corners (not swept):
+#
+#   pitch stick fully FORWARD -> ch2 = trim +503 us, i.e. POSITIVE
+#   ArduPilot expects forward -> NEGATIVE (nose down -> flies forward)
+#   so the stick as delivered would have flown the aircraft BACKWARD
+#
+# Roll measured CORRECT in the same capture (+490 -> rolls and flies right),
+# and that is what rules out a board mounted 180 degrees round -- a rotated
+# board reverses BOTH roll and pitch, and is fixed with AHRS_ORIENTATION,
+# never by reversing channels.
+#
+# The APM 2.8 airframe needed exactly the same correction (RC2_REV -1 on
+# 3.2.1). The parameter is RC2_REVERSED on 4.x, and it is 0/1, not -1/+1.
+#
+# Nothing in a parameter dump or a radio calibration can see this: a reversed
+# channel and a correct one produce identical PWM ranges, and the aircraft
+# self-levels from the IMU either way, so it hovers perfectly. Only the SIGN
+# relative to trim separates them.
+#
+# Fix it here OR in the transmitter's Reverse menu -- never both, or they
+# cancel out and you are back where you started.
+RC2_REVERSED,1

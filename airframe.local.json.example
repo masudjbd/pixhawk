@@ -1,0 +1,9 @@
+{
+  "_comment": "Copy to airframe.local.json. Records deliberate choices that no firmware parameter can express, so preflight.py stops warning about them. Without this file a correctly configured aircraft trips the same warning forever.",
+  "compass": "unknown",
+  "compass_note": "Run ./which_compass.py and record the answer: 'external' if the IST8310 on I2C is the mast module, 'internal' if the magnetometer actually in use is the onboard LSM303D. No parameter distinguishes a deliberate choice from a mistake.",
+  "frame": "quad X",
+  "pack": "3S",
+  "receiver": "FS-iA6B on SBUS into RCIN",
+  "power_module": "3DR-style analog brick, verify voltage against a meter"
+}

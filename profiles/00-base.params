@@ -1,0 +1,72 @@
+# Pixhawk (fmuv3) / ArduCopter 4.7 -- baseline sanity settings.
+# Format: NAME,VALUE one per line. Mission Planner and QGC both read this.
+#
+# Conservative on purpose: first-flight numbers, not tuned ones.
+#
+# Much shorter than the APM 2.8 equivalent, because 4.7's defaults are
+# already sane where ArduCopter 3.2.1's were not. Everything here is either a
+# deliberate departure from the default, or a value worth pinning so that
+# ./preload_params.py --diff notices it moving.
+#
+# ## 4.7 renamed and re-unitised a lot of this
+#
+# Do not copy parameter names over from an older aircraft or an old guide.
+# ArduPilot 4.6/4.7 moved most limits to SI units and renamed the parameters
+# to match, so the old name is simply absent and a tool that writes it
+# reports "not present in this firmware" rather than failing loudly:
+#
+#   ANGLE_MAX 3000 (centidegrees)  ->  ATC_ANGLE_MAX 30 (degrees)
+#   RTL_ALT 1500 (centimetres)     ->  RTL_ALT_M 15 (metres)
+#   RTL_ALT_FINAL                  ->  RTL_ALT_FINAL_M
+#   PILOT_SPEED_UP 250 (cm/s)      ->  PILOT_SPD_UP 2.5 (m/s)
+#   PILOT_ACCEL_Z                  ->  PILOT_ACC_Z (m/s/s)
+#   WPNAV_SPEED 500 (cm/s)         ->  WP_SPD 5 (m/s)
+#   LAND_SPEED 50 (cm/s)           ->  LAND_SPD_MS 0.5 (m/s)
+#   ARMING_CHECK 1 (bitmask: on)   ->  ARMING_SKIPCHK 0 (bitmask: skip none)
+#
+# ARMING_SKIPCHK is the inverted one and the easy mistake: the old parameter
+# listed checks to RUN, the new one lists checks to SKIP. Writing 1 here
+# would disable a check, not enable them all.
+#
+# EK2_ENABLE is gone entirely -- EKF2 was removed, so EKF3 is not a choice
+# any more.
+
+# --- estimator ------------------------------------------------------------
+AHRS_EKF_TYPE,3
+EK3_ENABLE,1
+
+# --- IMU filtering --------------------------------------------------------
+# 20 Hz. This board has one IMU on a soft mount; raising the filter lets
+# frame vibration into the rate loop.
+INS_GYRO_FILTER,20
+INS_ACCEL_FILTER,20
+
+# --- arming ---------------------------------------------------------------
+# Skip nothing. Pre-arm checks are the cheapest safety feature on the board,
+# and switching them off is how aircraft fly with a broken compass.
+ARMING_SKIPCHK,0
+
+# --- pilot limits ---------------------------------------------------------
+# 30 degree lean limit while learning the airframe; 45 once it is trimmed.
+ATC_ANGLE_MAX,30
+PILOT_SPD_UP,2.5
+PILOT_SPD_DN,1.5
+PILOT_ACC_Z,2.5
+
+# --- navigation -----------------------------------------------------------
+# Half the default horizontal speed for the first autonomous flights.
+WP_SPD,5
+WP_SPD_UP,2.5
+WP_SPD_DN,1.5
+RTL_ALT_M,15
+RTL_ALT_FINAL_M,0
+RTL_LOIT_TIME,5000
+LAND_SPD_MS,0.5
+
+# --- compass --------------------------------------------------------------
+# In-flight learning off: it quietly corrupts a good calibration.
+# COMPASS_AUTO_ROT 2 lets the calibration fit the external compass's
+# orientation, which is 4.x's answer to the APM toolkit's
+# solve_compass_orient.py -- same job, done by the firmware.
+COMPASS_LEARN,0
+COMPASS_AUTO_ROT,2

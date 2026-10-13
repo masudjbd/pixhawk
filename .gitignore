@@ -1,0 +1,28 @@
+# Python virtualenv -- ~1 GB, recreate with ./setup_env.sh
+.venv/
+__pycache__/
+*.pyc
+
+# Logs and dumps: parameter backups, tlogs, dataflash logs, tool state.
+# Parameter backups are genuinely useful but they are per-airframe snapshots
+# with timestamps, not source -- keep them local.
+logs/*.params
+logs/*.tlog
+logs/*.bin
+logs/*.json
+logs/*.log
+mav.tlog*
+
+# Firmware images: multi-MB binaries that fetch_firmware.sh downloads and
+# verifies on demand. firmware/MANIFEST.txt IS tracked -- it records which
+# image was flashed and its sha256.
+firmware/*.apj
+firmware/*.px4
+firmware/*.elf
+
+# Per-airframe facts and deliberate choices. Belongs to this aircraft, not
+# the toolkit -- airframe.local.json.example is the template that IS tracked.
+airframe.local.json
+
+# macOS
+.DS_Store
